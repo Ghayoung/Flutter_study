@@ -7,6 +7,7 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    print('createState');
     return _MyApp();
   }
 }
@@ -18,6 +19,7 @@ class _MyApp extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -46,5 +48,17 @@ class _MyApp extends State<MyApp> {
                     }
                   }
                 ))));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState');
+  }
+
+  @override
+  void didChangeDepencies() {
+    super.didChangeDependencies();
+    print('didChangeDependencies');
   }
 }
