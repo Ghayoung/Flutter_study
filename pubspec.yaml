@@ -65,6 +65,14 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - image/flutter.png
+    - repo/images/bee.png
+    - repo/images/cat.png
+    - repo/images/cow.png
+    - repo/images/dog.png
+    - repo/images/fox.png
+    - repo/images/monkey.png
+    - repo/images/pig.png
+    - repo/images/wolf.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
