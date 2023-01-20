@@ -14,18 +14,29 @@ class LargeFileMain extends StatefulWidget {
 
 class _LargeFileMain extends State<LargeFileMain> {
   // 내려받을 이미지 주소
-  final imgUrl =
-      'https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg'
-      '?auto=compress';
+  TextEditingController? _editingController;
   bool downloading = false; // 지금 내려받는 중인지 확인하는 변수
   var progressString = ""; // 현재 얼마나 내려받았는지 표시하는 변수
   String file = ""; // 내려받은 파일
 
   @override
+  void initState() {
+    super.initState();
+    _editingController = new TextEditingController(
+      text: 'https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg'
+          '?auto=compress');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Large File Example'),
+        title: TextField(
+          controller: _editingController,
+          style: TextStyle(color: Colors.white),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(hintText: 'url 입력하세요'),
+        ),
       ),
       body: Center(
           child: downloading
@@ -87,7 +98,7 @@ class _LargeFileMain extends State<LargeFileMain> {
     Dio dio = Dio();
     try {
       var dir = await getApplicationDocumentsDirectory(); // 앱의 내부 디렉터리를 가져오는 역할
-      await dio.download(imgUrl, '${dir.path}/myimage.jpg',
+      await dio.download(_editingController!.value.text, '${dir.path}/myimage.jpg',
           onReceiveProgress: (rec, total) {
         // 데이터를 받을 때마다 실행
         print('Rec: $rec, Total: $total');
