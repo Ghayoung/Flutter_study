@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'people.dart';
+import 'secondPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -63,11 +64,12 @@ class _AnimationApp extends State<AnimationApp> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     SizedBox(
-                        width: 100, child: Text('이름: ${peoples[current].name}')),
+                        width: 100,
+                        child: Text('이름: ${peoples[current].name}')),
                     AnimatedContainer(
                       duration: Duration(seconds: 2),
                       curve: Curves.bounceIn,
-                      color: weightColor,
+                      color: Colors.amber,
                       width: 50,
                       height: peoples[current].height,
                       child: Text(
@@ -76,9 +78,10 @@ class _AnimationApp extends State<AnimationApp> {
                       ),
                     ),
                     AnimatedContainer(
-                      duration: Duration(seconds: 2), // 2초 동안 애니메이션 재생
+                      duration: Duration(seconds: 2),
+                      // 2초 동안 애니메이션 재생
                       curve: Curves.easeInCubic,
-                      color: Colors.blue,
+                      color: weightColor,
                       width: 50,
                       height: peoples[current].weight,
                       child: Text(
@@ -101,7 +104,8 @@ class _AnimationApp extends State<AnimationApp> {
                 ),
               ),
             ),
-            ElevatedButton( // 버튼을 누르면 current 값이 바뀌면서 그래프의 높이 변경
+            ElevatedButton(
+              // 버튼을 누르면 current 값이 바뀌면서 그래프의 높이 변경
               onPressed: () {
                 setState(() {
                   if (current < peoples.length - 1) {
@@ -121,8 +125,7 @@ class _AnimationApp extends State<AnimationApp> {
                     _changeWeightColor(peoples[current].weight);
                   });
                 },
-                child: Text('이전')
-            ),
+                child: Text('이전')),
             ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -130,7 +133,22 @@ class _AnimationApp extends State<AnimationApp> {
                 });
               },
               child: Text('사라지기'),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SecondPage()));
+              },
+              child: SizedBox(
+                width: 200,
+                child: Row(
+                  children: <Widget>[
+                    Hero(tag: 'detail', child: Icon(Icons.cake)),
+                    Text('이동하기')
+                  ],
+                ),
+              ),
+            ),
           ],
         ))));
   }
