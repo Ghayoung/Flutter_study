@@ -26,6 +26,7 @@ class AnimationApp extends StatefulWidget {
 }
 
 class _AnimationApp extends State<AnimationApp> {
+  double _opacity = 1;
   List<People> peoples = new List.empty(growable: true);
   Color weightColor = Colors.blue;
   int current = 0;
@@ -52,48 +53,52 @@ class _AnimationApp extends State<AnimationApp> {
                 child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: 200,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  SizedBox(
-                      width: 100, child: Text('이름: ${peoples[current].name}')),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 2),
-                    curve: Curves.bounceIn,
-                    color: weightColor,
-                    width: 50,
-                    height: peoples[current].height,
-                    child: Text(
-                      '키 ${peoples[current].height}',
-                      textAlign: TextAlign.center,
+            AnimatedOpacity(
+              opacity: _opacity,
+              duration: Duration(seconds: 1),
+              child: SizedBox(
+                height: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    SizedBox(
+                        width: 100, child: Text('이름: ${peoples[current].name}')),
+                    AnimatedContainer(
+                      duration: Duration(seconds: 2),
+                      curve: Curves.bounceIn,
+                      color: weightColor,
+                      width: 50,
+                      height: peoples[current].height,
+                      child: Text(
+                        '키 ${peoples[current].height}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 2), // 2초 동안 애니메이션 재생
-                    curve: Curves.easeInCubic,
-                    color: Colors.blue,
-                    width: 50,
-                    height: peoples[current].weight,
-                    child: Text(
-                      '몸무게 ${peoples[current].weight}',
-                      textAlign: TextAlign.center,
+                    AnimatedContainer(
+                      duration: Duration(seconds: 2), // 2초 동안 애니메이션 재생
+                      curve: Curves.easeInCubic,
+                      color: Colors.blue,
+                      width: 50,
+                      height: peoples[current].weight,
+                      child: Text(
+                        '몸무게 ${peoples[current].weight}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 2),
-                    curve: Curves.linear,
-                    color: Colors.pinkAccent,
-                    width: 50,
-                    height: peoples[current].bmi,
-                    child: Text(
-                      'bmi ${peoples[current].bmi.toString().substring(0, 2)}',
-                      textAlign: TextAlign.center,
+                    AnimatedContainer(
+                      duration: Duration(seconds: 2),
+                      curve: Curves.linear,
+                      color: Colors.pinkAccent,
+                      width: 50,
+                      height: peoples[current].bmi,
+                      child: Text(
+                        'bmi ${peoples[current].bmi.toString().substring(0, 2)}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             ElevatedButton( // 버튼을 누르면 current 값이 바뀌면서 그래프의 높이 변경
@@ -116,7 +121,16 @@ class _AnimationApp extends State<AnimationApp> {
                     _changeWeightColor(peoples[current].weight);
                   });
                 },
-                child: Text('이전'))
+                child: Text('이전')
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _opacity == 1 ? _opacity = 0 : _opacity = 1;
+                });
+              },
+              child: Text('사라지기'),
+            )
           ],
         ))));
   }
