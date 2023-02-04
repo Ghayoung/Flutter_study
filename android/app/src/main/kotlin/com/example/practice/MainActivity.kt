@@ -27,6 +27,9 @@ class MainActivity: FlutterActivity() {
                     val data = call.arguments.toString().toByteArray();
                     val changeText = Base64.encodeToString(data, Base64.DEFAULT)
                     result.success(changeText)
+                } else if (call.method == "getDecode") {
+                    val changedText = Base64.decode(call.arguments.toString(), Base64.DEFAULT)
+                    result.success(String(changedText))
                 }
             }
     }
