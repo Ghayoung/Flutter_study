@@ -1,5 +1,6 @@
 /*
 플러터 앱에서 네이티브 함수 호출하기 main
+안드로이드 알림 창 출력하기
  */
 
 import 'package:flutter/services.dart';
@@ -45,6 +46,7 @@ class NativeApp extends StatefulWidget {
 class _NativeApp extends State<NativeApp> {
   // 안드로이드와의 통신 채널 선언, MethodChannel 괄호 안은 어떤 통신을 할 것인지 구분하는 키값
   static const platform = const MethodChannel('com.flutter.dev/info');
+  static const platform3 = const MethodChannel('com.flutter.dev/dialog');
   String _deviceInfo = 'Unknown info'; // 안드로이드에서 전달받은 기기 정보 저장
 
   @override
@@ -55,9 +57,19 @@ class _NativeApp extends State<NativeApp> {
       ),
       body: Container(
         child: Center(
-          child: Text(
-            _deviceInfo,
-            style: TextStyle(fontSize: 30),
+          child: Column(
+            children: [
+              Text(
+                _deviceInfo,
+                style: TextStyle(fontSize: 30),
+              ),
+              TextButton(
+                onPressed: () {
+                  _showDialog();
+                },
+                child: Text('네이티브 창 열기')
+              )
+            ],
           ),
         ),
       ),
@@ -81,5 +93,11 @@ class _NativeApp extends State<NativeApp> {
     setState(() {
       _deviceInfo = deviceInfo;
     });
+  }
+
+  Future<void> _showDialog() async {
+    try {
+      await platform3.invokeMethod('showDialog');
+    } on PlatformException catch (e) {}
   }
 }
