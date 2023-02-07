@@ -5,6 +5,7 @@ Firebase 애널리틱스 사용하기 main
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'tabsPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -81,7 +82,14 @@ class _FirebaseAppState extends State<FirebaseApp> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(child: const Icon(Icons.tab), onPressed: () {}),
+      floatingActionButton: FloatingActionButton(child: const Icon(Icons.tab), onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute<TabsPage>(
+          settings: RouteSettings(name: '/tab'), // 앱에서 자주 사용하지 않는 페이지라면 이렇게 처리할 수도 있다.
+          builder: (BuildContext context) {
+            return TabsPage(observer);
+          }
+        ));
+      }),
     );
   }
 }
