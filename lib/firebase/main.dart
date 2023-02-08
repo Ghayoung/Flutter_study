@@ -6,6 +6,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'tabsPage.dart';
+import 'memoPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,10 +22,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       navigatorObservers: <NavigatorObserver>[observer],
-      home: FirebaseApp(
+/*      home: FirebaseApp(
         analytics: analytics,
         observer: observer,
-      ),
+      ),*/
+      home: MemoPage(),
     );
   }
 }
