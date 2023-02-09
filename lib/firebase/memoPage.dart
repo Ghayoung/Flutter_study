@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'memo.dart';
 import 'memoAdd.dart';
+import 'memoDetail.dart';
 
 class MemoPage extends StatefulWidget {
   @override
@@ -54,11 +55,52 @@ class _MemoPage extends State<MemoPage> {
                           padding: EdgeInsets.only(top: 20, bottom: 20),
                           child: SizedBox(
                             child: GestureDetector(
-                              onTap: () {
-
+                              onTap: () async {
+                                Memo? memo = await Navigator.of(context).push(
+                                  MaterialPageRoute<Memo>(
+                                    builder: (BuildContext context) =>
+                                        MemoDetailPage(reference!, memos[index])
+                                  )
+                                );
+                                if (memo != null) {
+                                  setState(() {
+                                    memos[index].title = memo.title;
+                                    memos[index].content = memo.content;
+                                  });
+                                }
                               },
                               onLongPress: () {
-
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(memos[index].title),
+                                      content: Text('삭제하시겠습니까?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            reference!
+                                                .child(memos[index].key!)
+                                                .remove()
+                                                .then((_) {
+                                                  setState(() {
+                                                    memos.removeAt(index);
+                                                    Navigator.of(context).pop();
+                                                  });
+                                            });
+                                          },
+                                          child: Text('예')
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('아니요')
+                                        ),
+                                      ]
+                                    );
+                                  }
+                                );
                               },
                               child: Text(memos[index].content),
                             ),
