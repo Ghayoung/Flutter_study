@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'memo.dart';
 
 class MemoAddPage extends StatefulWidget {
@@ -19,11 +20,14 @@ class _MemoAddPage extends State<MemoAddPage> {
   TextEditingController? titleController;
   TextEditingController? contentController;
 
+  InterstitialAd? _interstitialAd;
+
   @override
   void initState() {
     super.initState();
     titleController = TextEditingController();
     contentController = TextEditingController();
+    _createInterstitialAd();
   }
 
   @override
@@ -60,11 +64,51 @@ class _MemoAddPage extends State<MemoAddPage> {
                       .then((_) {
                     Navigator.of(context).pop();
                   });
+                  _showInterstitialAd(); // 전면 광고 호출
                 },
                 child: Text('저장하기'),
                 shape:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(1)),
               )
             ]))));
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: "ca-app-pub-3940256099942544/1033173712",
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          print('$ad loaded');
+          _interstitialAd = ad;
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error.');
+          _interstitialAd = null;
+        },
+      )
+    );
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
   }
 }
