@@ -53,16 +53,16 @@ class _MemoAddPage extends State<MemoAddPage> {
                 decoration: InputDecoration(labelText: '내용'),
               )),
               MaterialButton(
-                onPressed: () {
+                onPressed: () { // 데이터베이스에 데이터 저장
                   widget.reference
                       .push()
                       .set(Memo(
                               titleController!.value.text,
                               contentController!.value.text,
-                              DateTime.now().toIso8601String())
+                              DateTime.now().toIso8601String()) // 어떤 데이터를 넣을지 정의
                           .toJson())
                       .then((_) {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(); // 페이지 종료
                   });
                   _showInterstitialAd(); // 전면 광고 호출
                 },

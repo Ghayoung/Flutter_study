@@ -28,7 +28,8 @@ class _MemoPage extends State<MemoPage> {
   void initState() {
     super.initState();
     _database = FirebaseDatabase(databaseURL: _databaseURL);
-    reference = _database!.reference().child('memo');
+    reference =
+        _database!.reference().child('memo'); // 데이터베이스에 memo라는 컬렉션을 만드는 코드
 
     reference!.onChildAdded.listen((event) {
       // 데이터베이스에 데이터가 추가되면 자동 실행
@@ -56,7 +57,7 @@ class _MemoPage extends State<MemoPage> {
           Container(
             child: Center(
               child: memos.length == 0
-                  ? CircularProgressIndicator()
+                  ? CircularProgressIndicator() // 데이터가 없을 경우 프로그레스 표시
                   : GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2),
@@ -158,9 +159,11 @@ class _MemoPage extends State<MemoPage> {
       return;
     }
     final BannerAd banner = BannerAd(
-      size: size, // 광고 크기
+      size: size,
+      // 광고 크기
       request: AdRequest(),
-      adUnitId: "ca-app-pub-3940256099942544/6300978111", // '### 하단 배너 광고 ID ###'
+      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      // '### 하단 배너 광고 ID ###'
       listener: BannerAdListener(
         // 애드몹에서 광고를 호출할 때 받아오는 데이터
         onAdLoaded: (Ad ad) {

@@ -39,7 +39,7 @@ class _TabsPage extends State<TabsPage> with SingleTickerProviderStateMixin, Rou
       length: tabs.length,
       initialIndex: selectedIndex,
     );
-    _controller!.addListener(() {
+    _controller!.addListener(() { // 탭을 클릭했을 때 발생하는 이벤트
       setState(() {
         if (selectedIndex != _controller!.index) {
           selectedIndex = _controller!.index;
@@ -53,12 +53,14 @@ class _TabsPage extends State<TabsPage> with SingleTickerProviderStateMixin, Rou
     observer.analytics.setCurrentScreen(screenName: 'tab/$selectedIndex',);
   }
 
+  // 옵서버를 이용하려면 FirebaseAnalyticsObserver를 사용한다고 앱에 알려 주어야 한다. (=구독)
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() { // initState() 다음에 상태에 변화가 생겼을 때 호출
     super.didChangeDependencies();
     observer.subscribe(this, ModalRoute.of(context) as dynamic);
   }
 
+  // 구독 해지
   @override
   void dispose() {
     observer.unsubscribe(this);

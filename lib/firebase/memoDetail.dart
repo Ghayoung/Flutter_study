@@ -56,7 +56,7 @@ class _MemoDetailPage extends State<MemoDetailPage> {
                   Memo memo = Memo(titleController!.value.text,
                   contentController!.value.text, widget.memo.createTime);
                   widget.reference
-                  .child(widget.memo.key!)
+                  .child(widget.memo.key!) // 메모의 key 값을 가져와 같은 key에 해당하는 데이터 수정
                   .set(memo.toJson())
                   .then((_) {
                     Navigator.of(context).pop(memo);

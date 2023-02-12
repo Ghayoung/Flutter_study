@@ -18,7 +18,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  // 파이어베이스 애널리틱스를 사용하기 위한 객체 선언
   static FirebaseAnalytics analytics = FirebaseAnalytics();
+  // 페이지 이동, 클릭 등 사용자의 행동을 관찰하는 객체
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
